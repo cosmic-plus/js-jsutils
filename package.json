@@ -1,0 +1,15 @@
+{
+  "name": "@cosmic-plus/jsutils",
+  "version": "1.0.0",
+  "description": "Generic JavaScript utilities that are not related to Stellar",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "standard --fix '**.js'"
+  },
+  "author": "MisterTicot",
+  "license": "MIT",
+  "repository": "github:cosmic-plus/node-jsutils",
+  "devDependencies": {
+    "standard": "^11.0.1"
+  }
+}
