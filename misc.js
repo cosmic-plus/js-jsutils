@@ -78,9 +78,16 @@ misc.copy = function (string) {
 }
 
 /**
+ * Set `object` property `name` as hidden, and set it to `value`.
+ */
+misc.setHiddenProperty = function (object, name, value) {
+  Object.defineProperty(object, name, { value: value, enumerable: false, writable: true })
+}
+
+/**
  * Creates and returns an extra field (`extra_ticot`) for **obj**. This allow to
  * append additional information to objects without mess.
- * 
+ *
  * @param {Object}
  * @return {Object} The extra field object.
  */
