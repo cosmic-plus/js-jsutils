@@ -56,7 +56,16 @@ html.copyContent = function (element) {
   /// Don't copy complete box content twice / when user made a selection.
   if (element.selectionStart !== element.selectionEnd) return
 
-  element.select()
+  if (element.select) {
+    element.select()
+  } else if (window.getSelection) {
+    const range = document.createRange()
+    range.selectNode(element)
+    window.getSelection().removeAllRanges()
+    window.getSelection().addRange(range)
+  } else {
+    return
+  }
   return document.execCommand('copy')
 }
 
