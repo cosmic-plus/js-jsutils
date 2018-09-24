@@ -1,6 +1,6 @@
 {
   "name": "@cosmic-plus/jsutils",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Generic JavaScript utilities that are not related to Stellar",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
