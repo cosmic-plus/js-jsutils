@@ -23,6 +23,8 @@ dom.footer = html.grab('footer')
 /**
  * All elements having an ID.
  */
-document.querySelectorAll('[id]').forEach(element => {
+const array = document.querySelectorAll('[id]')
+for (let index in array) {
+  const element = array[index]
   dom[element.id] = element
-})
+}
