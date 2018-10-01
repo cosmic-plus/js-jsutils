@@ -85,6 +85,18 @@ misc.setHiddenProperty = function (object, name, value) {
 }
 
 /**
+ * Log an error stating that `before` is deprecated.
+ *
+ * @param {string} date YYYY-MM or YYYY-MM-DD
+ * @param {string} before Old function/property
+ * @param {string} after New function/property
+ */
+misc.deprecated = function (date, before, after) {
+  console.error(`Warning: ${before} is deprecated and will be removed after \
+${date}. Please use ${after} instead.`)
+}
+
+/**
  * Creates and returns an extra field (`extra_ticot`) for **obj**. This allow to
  * append additional information to objects without mess.
  *
