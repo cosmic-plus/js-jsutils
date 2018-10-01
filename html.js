@@ -144,7 +144,7 @@ html.hide = function (...elements) {
 
 /**
  * Replace `element1` by `element2`.
- * 
+ *
  * @param {HTMLElement} element1 The element to replace.
  * @param {HTMLElement} element2 The element to put in place of `element1`.
  */
@@ -162,3 +162,14 @@ html.rewrite = function (element, ...childs) {
   html.clear(element)
   html.append(element, ...childs)
 }
+
+/**
+ * Add `string` as additional CSS definitions for the current document.
+ *
+ * @param {string} styles CSS definitions
+ */
+html.addStyles = function (styles) {
+  const styleNode = html.create('style', { type: 'text/css' }, styles)
+  html.append(headNode, styleNode)
+}
+const headNode = html.grab('head')
