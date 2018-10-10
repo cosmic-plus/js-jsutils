@@ -27,22 +27,11 @@ env.window = new Function('try { return window } catch (e) { return undefined }'
 env.global = new Function('try { return global } catch (e) { return undefined }')()
 
 /**
- * A require that only have effect in Node.js and that is invisible to web
- * application packagers.
- */ 
-
-env.nodeRequire = function (module) {
-  if (env.isNode) return stealth_require(module)
-}
-
-/**
- * A require that is invisible to web application packagers.
+ * A require that only have effect in Node.js and that is invisible package
+ * bundlers.
  */
-const stealth_require = env.isNode && eval('require')
-
-///**
- //* A require that only have effect in browser environment.
- //*/
-//env.browserRequire = function (module) {
-  //if (env.isBrowser) return require(module)
-//}
+env.nodeRequire = () => {}
+if (env.isNode) {
+  const stealth_require = eval('require')
+  env.nodeRequire = (module) => stealth_require(module)
+}
