@@ -6,7 +6,8 @@
  */
 const misc = exports
 
-const html = require('./html')
+const env = require('./env')
+const html = env.isBrowser && require('./html')
 
 /**
  * Return a function that will execute `thunk` when called, and return the
