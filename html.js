@@ -10,6 +10,11 @@
  */
 const html = exports
 
+/// Prevent node failure when accidentaly loading this file.
+const env = require('./env')
+const document = env.window ? env.window.document : undefined
+if (env.isNode) console.error('@cosmic-plus/jsutils/html is a browser-only module')
+
 /**
  * Append `childs` as the end of `element`.
  *
