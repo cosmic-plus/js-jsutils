@@ -23,7 +23,7 @@ if (env.isNode) console.error('@cosmic-plus/jsutils/html is a browser-only modul
  */
 html.append = function (element, ...childs) {
   childs.forEach(child => {
-    if (typeof child === 'string' || child instanceof Error) {
+    if (typeof child === 'string' || typeof child === 'number' || child instanceof Error) {
       element.appendChild(document.createTextNode(child))
     } else {
       element.appendChild(child)
