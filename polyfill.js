@@ -1,5 +1,9 @@
 'use_strict'
 
+if (!NodeList.prototype.forEach) {
+  NodeList.prototype.forEach = Array.prototype.forEach
+}
+
 /// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
 if (!Array.prototype.find) {
   Object.defineProperty(Array.prototype, 'find', {
