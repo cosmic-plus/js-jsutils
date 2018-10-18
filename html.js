@@ -44,10 +44,10 @@ html.appendClass = function (element, newClass) {
 /**
  * Remove everything inside `element`.
  *
- * @param {HTMLElement} element
+ * @param {HTMLElement} elements
  * */
-html.clear = function (element) {
-  element.innerHTML = ''
+html.clear = function (...elements) {
+  elements.forEach(element => { element.innerHTML = '' })
 }
 
 /**
