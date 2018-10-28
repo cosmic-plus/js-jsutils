@@ -10,6 +10,24 @@ const dom = exports
 
 const html = require('./html')
 
+/// Prevent node failure when accidentaly loading this file.
+const env = require('./env')
+const document = env.window ? env.window.document : undefined
+if (env.isNode) console.error('@cosmic-plus/jsutils/dom is a browser-only module')
+
+/**
+ * Add to dom all **element** child having an `id=` attribute.
+ */
+function ingest (element = document) {
+  const array = element.querySelectorAll('[id]')
+  for (let index in array) {
+    const element = array[index]
+    if (element.id) dom[element.id] = element
+  }
+}
+Object.defineProperty(dom, 'ingest',
+  { value: ingest, enumerable: false, writable: false })
+
 /**
  * Main tags.
  */
@@ -23,8 +41,4 @@ dom.footer = html.grab('footer')
 /**
  * All elements having an ID.
  */
-const array = document.querySelectorAll('[id]')
-for (let index in array) {
-  const element = array[index]
-  dom[element.id] = element
-}
+dom.ingest()
