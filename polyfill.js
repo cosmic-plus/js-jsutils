@@ -1,4 +1,4 @@
-'use_strict'
+"use_strict"
 
 if (!NodeList.prototype.forEach) {
   NodeList.prototype.forEach = Array.prototype.forEach
@@ -6,11 +6,11 @@ if (!NodeList.prototype.forEach) {
 
 /// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
 if (!Array.prototype.find) {
-  Object.defineProperty(Array.prototype, 'find', {
+  Object.defineProperty(Array.prototype, "find", {
     value: function (predicate) {
       // 1. Let O be ? ToObject(this value).
       if (this == null) {
-        throw new TypeError('"this" is null or not defined')
+        throw new TypeError("\"this\" is null or not defined")
       }
 
       var o = Object(this)
@@ -19,8 +19,8 @@ if (!Array.prototype.find) {
       var len = o.length >>> 0
 
       // 3. If IsCallable(predicate) is false, throw a TypeError exception.
-      if (typeof predicate !== 'function') {
-        throw new TypeError('predicate must be a function')
+      if (typeof predicate !== "function") {
+        throw new TypeError("predicate must be a function")
       }
 
       // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
@@ -52,13 +52,13 @@ if (!Array.prototype.find) {
 }
 
 /// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
-if (typeof Object.assign !== 'function') {
+if (typeof Object.assign !== "function") {
   // Must be writable: true, enumerable: false, configurable: true
-  Object.defineProperty(Object, 'assign', {
+  Object.defineProperty(Object, "assign", {
     value: function assign (target, varArgs) { // .length of function is 2
-      'use strict'
+      "use strict"
       if (target == null) { // TypeError if undefined or null
-        throw new TypeError('Cannot convert undefined or null to object')
+        throw new TypeError("Cannot convert undefined or null to object")
       }
 
       var to = Object(target)

@@ -7,9 +7,9 @@
   "license": "MIT",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "format": "standard --fix '**.js'"
+    "lint": "eslint --fix *.js"
   },
   "devDependencies": {
-    "standard": "^12.0.1"
+    "eslint": "^5.8.0"
   }
 }

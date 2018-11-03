@@ -1,4 +1,4 @@
-'use_strict'
+"use_strict"
 /**
  * Utilities to save/load files. Currently works only in browser environment.
  *
@@ -6,7 +6,7 @@
  */
 const file = exports
 
-const html = require('./html')
+const html = require("./html")
 
 /**
  * Read file from user `path`.
@@ -31,8 +31,8 @@ file.load = function (path) {
  * @param {string} data
  */
 file.save = function (filename, data) {
-  const a = html.create('a', {
-    href: 'data:text/plain;charset=utf-8,' + encodeURIComponent(data),
+  const a = html.create("a", {
+    href: "data:text/plain;charset=utf-8," + encodeURIComponent(data),
     download: filename
   })
   html.append(document.body, a)

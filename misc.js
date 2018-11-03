@@ -1,4 +1,4 @@
-'use strict'
+"use strict"
 /**
  * Various independent helpers.
  *
@@ -6,8 +6,8 @@
  */
 const misc = exports
 
-const env = require('./env')
-const html = env.isBrowser && require('./html')
+const env = require("./env")
+const html = env.isBrowser && require("./html")
 
 /**
  * Return a function that will execute `thunk` when called, and return the
@@ -58,7 +58,7 @@ misc.capitalize = function (string) {
  */
 misc.shorter = function (string) {
   if (string.length > 50) {
-    return string.substr(0, 5) + '...' + string.substr(-5)
+    return string.substr(0, 5) + "..." + string.substr(-5)
   } else {
     return string
   }
@@ -72,8 +72,8 @@ misc.shorter = function (string) {
  * @return {function}
  */
 misc.copy = function (string) {
-  const textBox = html.create('textarea', {}, string)
-  html.append(html.grab('body'), textBox)
+  const textBox = html.create("textarea", {}, string)
+  html.append(html.grab("body"), textBox)
   html.copyContent(textBox)
   html.destroy(textBox)
 }
@@ -108,4 +108,4 @@ misc.useExtra = function (obj) {
   if (!obj[extraField]) obj[extraField] = {}
   return obj[extraField]
 }
-const extraField = '_extra_ticot'
+const extraField = "_extra_ticot"

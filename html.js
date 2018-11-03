@@ -1,4 +1,4 @@
-'use_strict'
+"use_strict"
 /**
  * Utilities to manipulate HTML element from javascript.
  *
@@ -11,9 +11,9 @@
 const html = exports
 
 /// Prevent node failure when accidentaly loading this file.
-const env = require('./env')
+const env = require("./env")
 const document = env.window ? env.window.document : undefined
-if (env.isNode) console.error('@cosmic-plus/jsutils/html is a browser-only module')
+if (env.isNode) console.error("@cosmic-plus/jsutils/html is a browser-only module")
 
 /**
  * Append `childs` as the end of `element`.
@@ -23,7 +23,7 @@ if (env.isNode) console.error('@cosmic-plus/jsutils/html is a browser-only modul
  */
 html.append = function (element, ...childs) {
   childs.forEach(child => {
-    if (typeof child === 'string' || typeof child === 'number' || child instanceof Error) {
+    if (typeof child === "string" || typeof child === "number" || child instanceof Error) {
       element.appendChild(document.createTextNode(child))
     } else {
       element.appendChild(child)
@@ -38,7 +38,7 @@ html.append = function (element, ...childs) {
  * @param {string} newClass
  * */
 html.appendClass = function (element, newClass) {
-  element.className += ' ' + newClass
+  element.className += " " + newClass
 }
 
 /**
@@ -47,7 +47,7 @@ html.appendClass = function (element, newClass) {
  * @param {HTMLElement} elements
  * */
 html.clear = function (...elements) {
-  elements.forEach(element => { element.innerHTML = '' })
+  elements.forEach(element => { element.innerHTML = "" })
 }
 
 /**
@@ -71,7 +71,7 @@ html.copyContent = function (element) {
   } else {
     return
   }
-  return document.execCommand('copy')
+  return document.execCommand("copy")
 }
 
 /**
@@ -83,15 +83,15 @@ html.copyContent = function (element) {
  * @param {...HTMLElement} [childs]
  */
 html.create = function (name, attributes, ...childs) {
-  if (!name) throw new Error('Missing tag name')
+  if (!name) throw new Error("Missing tag name")
 
   const element = document.createElement(name)
 
-  if (typeof attributes === 'string') {
+  if (typeof attributes === "string") {
     switch (attributes.substr(0, 1)) {
-      case '#': element.id = attributes.substr(1); break
-      case '.': element.className = attributes.substr(1); break
-      default: throw new Error('Unhandled attribute')
+    case "#": element.id = attributes.substr(1); break
+    case ".": element.className = attributes.substr(1); break
+    default: throw new Error("Unhandled attribute")
     }
   } else {
     let field; for (field in attributes) {
@@ -111,7 +111,7 @@ html.create = function (name, attributes, ...childs) {
  * */
 html.destroy = function (element) {
   try {
-    element.innerHTML = ''
+    element.innerHTML = ""
     if (element.parentNode) element.parentNode.removeChild(element)
   } catch (error) { console.error(error) }
 }
@@ -136,7 +136,7 @@ html.grab = function (pattern, parent = document) {
  * @param {...HTMLElement} elements
  */
 html.show = function (...elements) {
-  elements.forEach(element => element.style.display = 'block')
+  elements.forEach(element => element.style.display = "block")
 }
 
 /** Set the `style.display` property of `...elements` to `none`.
@@ -144,7 +144,7 @@ html.show = function (...elements) {
  * @param {...HTMLElement} elements
  */
 html.hide = function (...elements) {
-  elements.forEach(element => element.style.display = 'none')
+  elements.forEach(element => element.style.display = "none")
 }
 
 /**
@@ -174,7 +174,7 @@ html.rewrite = function (element, ...childs) {
  * @param {string} styles CSS definitions
  */
 html.addStyles = function (styles) {
-  const styleNode = html.create('style', { type: 'text/css' }, styles)
+  const styleNode = html.create("style", { type: "text/css" }, styles)
   html.append(headNode, styleNode)
 }
-const headNode = html.grab('head')
+const headNode = html.grab("head")
