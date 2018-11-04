@@ -71,7 +71,7 @@ misc.shorter = function (string) {
  * @param {string} string
  * @return {function}
  */
-misc.copy = function (string) {
+misc.copy = env.isBrowser && function (string) {
   const textBox = html.create("textarea", {}, string)
   html.append(html.grab("body"), textBox)
   html.copyContent(textBox)
