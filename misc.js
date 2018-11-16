@@ -109,3 +109,25 @@ misc.useExtra = function (obj) {
   return obj[extraField]
 }
 const extraField = "_extra_ticot"
+
+/**
+ * Test if **string** is made of printable UTF8 characters. This is a simplified
+ * test that is not robust.
+ *
+ * @param {String}
+ * @return {Boolean}
+ */
+misc.isUtf8 = function (string) {
+  // eslint-disable-next-line no-control-regex
+  return !string.match(/[\0-\x1F\x7F-\x9F\xAD\uD7FC-\uF8FF]/)
+}
+
+/**
+ * Test if **string** is a base64 string.
+ *
+ * @param  {String} string
+ * @return {Boolean}
+ */
+misc.isBase64 = function (string) {
+  return !!string.match(/^[0-9a-zA-Z+/]*=*$/)
+}
