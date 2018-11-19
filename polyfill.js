@@ -81,3 +81,9 @@ if (typeof Object.assign !== "function") {
     configurable: true
   })
 }
+
+if (!Object.values) {
+  Object.values = function values(obj) {
+    return Object.keys(obj).map(e => obj[e])
+  }
+}
