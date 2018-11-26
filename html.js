@@ -136,7 +136,7 @@ html.grab = function (pattern, parent = document) {
  * @param {...HTMLElement} elements
  */
 html.show = function (...elements) {
-  elements.forEach(element => element.style.display = "block")
+  elements.forEach(element => element.hidden = false)
 }
 
 /** Set the `style.display` property of `...elements` to `none`.
@@ -144,7 +144,7 @@ html.show = function (...elements) {
  * @param {...HTMLElement} elements
  */
 html.hide = function (...elements) {
-  elements.forEach(element => element.style.display = "none")
+  elements.forEach(element => element.hidden = true)
 }
 
 /**
