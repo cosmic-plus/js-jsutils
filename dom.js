@@ -19,6 +19,7 @@ if (env.isNode) console.error("@cosmic-plus/jsutils/dom is a browser-only module
  * Add to dom all **element** child having an `id=` attribute.
  */
 function ingest (element = document) {
+  if (element.id) dom[element.id] = element
   const array = element.querySelectorAll("[id]")
   for (let index in array) {
     const element = array[index]
@@ -35,6 +36,7 @@ dom.html = html.grab("html")
 dom.head = html.grab("head")
 dom.body = html.grab("body")
 dom.header = html.grab("header")
+dom.nav = html.grab("nav")
 dom.main = html.grab("main")
 dom.footer = html.grab("footer")
 
