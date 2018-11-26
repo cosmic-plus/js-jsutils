@@ -9,22 +9,22 @@ const env = exports
 /**
  * `true` if we are in a browser environment, `false` otherwise.
  */
-env.isBrowser = new Function("try { return this === window } catch (e) { return false }")()
+env.isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined"
 
 /**
  * `true` if we are in a node.js environment, `false` otherwise.
  */
-env.isNode = new Function("try { return this === global } catch (e) { return false }")()
+env.isNode = typeof process !== "undefined" && process.versions && process.versions.node
 
 /**
  * The window object, or `undefined`.
  */
-env.window = new Function("try { return window } catch (e) { return undefined }")()
+env.window = env.isBrowser && window
 
 /**
  * The global objet, or `undefined`.
  */
-env.global = new Function("try { return global } catch (e) { return undefined }")()
+env.global = env.isNode && global
 
 /**
  * A require that only have effect in Node.js and that is invisible package
