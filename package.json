@@ -1,6 +1,6 @@
 {
   "name": "@cosmic-plus/jsutils",
-  "version": "1.11.0",
+  "version": "1.11.1",
   "description": "Generic JavaScript utilities that are not related to Stellar",
   "author": "MisterTicot",
   "repository": "github:cosmic-plus/node-jsutils",
