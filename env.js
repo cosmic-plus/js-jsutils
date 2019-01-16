@@ -17,6 +17,11 @@ env.isBrowser = typeof window !== "undefined" && typeof window.document !== "und
 env.isNode = typeof process !== "undefined" && process.versions && process.versions.node
 
 /**
+ * `true` if current page is embedded.
+ */
+env.isEmbedded = env.isBrowser && window.self !== window.top
+
+/**
  * The window object, or `undefined`.
  */
 env.window = env.isBrowser && window
