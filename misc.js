@@ -6,9 +6,6 @@
  */
 const misc = exports
 
-const env = require("./env")
-const html = env.isBrowser && require("./html")
-
 /**
  * Return a function that will execute `thunk` when called, and return the
  * result of its execution as a Promise. Handle async and regular functions
@@ -65,20 +62,6 @@ misc.shorter = function (string) {
 }
 
 /**
- * Return a function that copy `string` into user clipboard.
- *
- * @private
- * @param {string} string
- * @return {function}
- */
-misc.copy = env.isBrowser && function (string) {
-  const textBox = html.create("textarea", {}, string)
-  html.append(html.grab("body"), textBox)
-  html.copyContent(textBox)
-  html.destroy(textBox)
-}
-
-/**
  * Set `object` property `name` as hidden, and set it to `value`.
  */
 misc.setHiddenProperty = function (object, name, value) {
@@ -131,3 +114,11 @@ misc.isUtf8 = function (string) {
 misc.isBase64 = function (string) {
   return !!string.match(/^[0-9a-zA-Z+/]*=*$/)
 }
+
+
+
+/**
+ * Deprecated functions
+ */
+
+misc.copy = () => console.error("misc.copy() have been moved to html.copyString()")

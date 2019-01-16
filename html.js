@@ -75,6 +75,18 @@ html.copyContent = function (element) {
 }
 
 /**
+ * Copy `string` into user clipboard.
+ *
+ * @param {string} string
+ */
+html.copyString = function (string) {
+  const textBox = html.create("textarea", {}, string)
+  html.append(document.body, textBox)
+  html.copyContent(textBox)
+  html.destroy(textBox)
+}
+
+/**
  * Return a newly created HTML element whose tag is `name`, attributes
  * `attributes` and childs `childs`.
  *
