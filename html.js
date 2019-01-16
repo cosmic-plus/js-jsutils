@@ -10,6 +10,8 @@
  */
 const html = exports
 
+const { deprecated } = require("./misc.js")
+
 /// Prevent node failure when accidentaly loading this file.
 const env = require("./env")
 const document = env.window ? env.window.document : undefined
@@ -26,13 +28,20 @@ html.append = function (element, ...childs) {
 }
 
 /**
- * Add `newClass` as an additionnal class for `element`.
+ * Add `className` as an additionnal class for `element`.
  *
  * @param {HTMLElement} element
- * @param {string} newClass
+ * @param {string} className
  * */
-html.appendClass = function (element, newClass) {
-  element.className += " " + newClass
+html.addClass = function (element, className) {
+  const classes = element.className.split(" ")
+  if (classes.indexOf(className) === -1) element.className += ` ${className}`
+}
+
+// Deprecated since 2019-01-16
+html.appendClass = function (element, className) {
+  deprecated("2019-07-16", "html.appendClass()", "html.addClass()")
+  return html.addClass(element, className)
 }
 
 /**
