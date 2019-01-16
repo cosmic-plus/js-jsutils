@@ -2,6 +2,7 @@
 /**
  * The Form class ease the creation of html forms.
  */
+const env = require("./env")
 const html = require("./html")
 const helpers = require("./misc")
 
@@ -23,6 +24,12 @@ module.exports = class Form {
       }
     } else {
       this.node = html.create("form", { autocomplete: "off" })
+    }
+
+    // Avoid password autofill in framed session (prevent click-jacking)
+    if (env.isEmbedded) {
+      const hiddenBox = html.create("input", { type: "password", hidden: true })
+      this.node.insertBefore(hiddenBox, this.firstChild)
     }
 
     if (!this.infoNode) {
