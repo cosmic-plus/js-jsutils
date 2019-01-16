@@ -37,10 +37,11 @@ const Page = module.exports = class Page {
 
   constructor (title, domNode) {
     this.title = title
+    if (!domNode.id) domNode.id = title.toLowerCase()
     this.hash = `#${domNode.id}`
 
     if (!domNode.parentNode) dom.ingest(domNode)
-    domNode.className = "page"
+    html.addClass(domNode, "page")
     this.contentNode = domNode
 
     this.linkNode = html.create("a", null, title)

@@ -65,7 +65,11 @@ misc.shorter = function (string) {
  * Set `object` property `name` as hidden, and set it to `value`.
  */
 misc.setHiddenProperty = function (object, name, value) {
-  Object.defineProperty(object, name, { value: value, enumerable: false, writable: true })
+  Object.defineProperty(object, name, {
+    value: value,
+    enumerable: false,
+    configurable: true
+  })
 }
 
 /**
@@ -88,10 +92,10 @@ ${date}. Please use ${after} instead.`)
  * @return {Object} The extra field object.
  */
 misc.useExtra = function (obj) {
-  if (!obj[extraField]) obj[extraField] = {}
+  if (!obj[extraField]) misc.setHiddenProperty(obj, extraField, {})
   return obj[extraField]
 }
-const extraField = "_extra_ticot"
+const extraField = "@cosmic-plus"
 
 /**
  * Test if **string** is made of printable UTF8 characters. This is a simplified

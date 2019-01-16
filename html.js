@@ -18,6 +18,16 @@ const document = env.window ? env.window.document : undefined
 if (env.isNode) console.error("@cosmic-plus/jsutils/html is a browser-only module")
 
 /**
+ * Add `string` as additional CSS definitions for the current document.
+ *
+ * @param {string} styles CSS definitions
+ */
+html.addStyles = function (styles) {
+  const styleNode = html.create("style", { type: "text/css" }, styles)
+  html.append(document.head, styleNode)
+}
+
+/**
  * Append `childs` as the end of `element`.
  *
  * @param {HTMLElement} element
@@ -116,8 +126,6 @@ html.copyString = function (string) {
  * @param {...HTMLElement} [childs]
  */
 html.create = function (name, attributes, ...childs) {
-  if (!name) throw new Error("Missing tag name")
-
   const element = document.createElement(name)
 
   if (typeof attributes === "string") {
@@ -127,9 +135,7 @@ html.create = function (name, attributes, ...childs) {
     default: throw new Error("Unhandled attribute")
     }
   } else {
-    let field; for (field in attributes) {
-      element[field] = attributes[field]
-    }
+    Object.assign(element, attributes)
   }
 
   if (childs.length > 0) html.append(element, ...childs)
@@ -144,9 +150,11 @@ html.create = function (name, attributes, ...childs) {
  * */
 html.destroy = function (element) {
   try {
-    element.innerHTML = ""
     if (element.parentNode) element.parentNode.removeChild(element)
-  } catch (error) { console.error(error) }
+    element.innerHTML = ""
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 /**
@@ -161,15 +169,6 @@ html.destroy = function (element) {
  * */
 html.grab = function (pattern, parent = document) {
   return parent.querySelector(pattern)
-}
-
-/**
- * Set the `style.display` property of `...elements` to `block`.
- *
- * @param {...HTMLElement} elements
- */
-html.show = function (...elements) {
-  elements.forEach(element => element.hidden = false)
 }
 
 /** Set the `style.display` property of `...elements` to `none`.
@@ -204,12 +203,10 @@ html.rewrite = function (element, ...childs) {
 }
 
 /**
- * Add `string` as additional CSS definitions for the current document.
+ * Set the `style.display` property of `...elements` to `block`.
  *
- * @param {string} styles CSS definitions
+ * @param {...HTMLElement} elements
  */
-html.addStyles = function (styles) {
-  const styleNode = html.create("style", { type: "text/css" }, styles)
-  html.append(headNode, styleNode)
+html.show = function (...elements) {
+  elements.forEach(element => element.hidden = false)
 }
-const headNode = html.grab("head")

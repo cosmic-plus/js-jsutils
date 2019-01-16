@@ -32,7 +32,7 @@ env.window = env.isBrowser && window
 env.global = env.isNode && global
 
 /**
- * A require that only have effect in Node.js and that is invisible package
+ * A require that only have effect in Node.js and that is invisible for package
  * bundlers.
  */
 env.nodeRequire = () => {}
