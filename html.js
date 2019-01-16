@@ -22,13 +22,7 @@ if (env.isNode) console.error("@cosmic-plus/jsutils/html is a browser-only modul
  * @param {...(HTMLElement|String|Error)} childs
  */
 html.append = function (element, ...childs) {
-  childs.forEach(child => {
-    if (typeof child === "string" || typeof child === "number" || child instanceof Error) {
-      element.appendChild(document.createTextNode(child))
-    } else {
-      element.appendChild(child)
-    }
-  })
+  childs.forEach(child => { element.appendChild(html.convert(child)) })
 }
 
 /**
@@ -48,6 +42,24 @@ html.appendClass = function (element, newClass) {
  * */
 html.clear = function (...elements) {
   elements.forEach(element => { element.innerHTML = "" })
+}
+
+/**
+ * If **object** is not an *HTMLElement*, convert it to a text DOM node; else
+ * return **object**.
+ *
+ * @param  {Object} object
+ * @return {HTMLELement}
+ */
+html.convert = function (object) {
+  // https://stackoverflow.com/questions/384286/javascript-isdom-how-do-you-check-if-a-javascript-object-is-a-dom-object/36894871#36894871
+  if (
+    object instanceof Element
+    || object instanceof HTMLDocument
+    || object instanceof Text
+  ) return object
+  else if (object == null) return document.createTextNode("")
+  else return object.domNode || document.createTextNode(object)
 }
 
 /**
@@ -166,7 +178,9 @@ html.hide = function (...elements) {
  * @param {HTMLElement} element2 The element to put in place of `element1`.
  */
 html.replace = function (element1, element2) {
-  element1.parentNode.replaceChild(element2, element1)
+  const node = html.convert(element2)
+  element1.parentNode.replaceChild(node, element1)
+  return node
 }
 
 /**
