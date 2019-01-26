@@ -23,6 +23,7 @@ Then: `const ${module} = require('@cosmic-plus/base/${module}')`
 * **misc**: Various unrelated methods.
 * **nice**: Nicely format numbers.
 * **observable**: Add event support to *Object*.
+* **projectable**: Self-updatable Object properties.
 * **page**: Tab-based browsing (*browser-only*).
 * **polyfill**: A few important polyfill (*browser-only*).
 * **service-worker**: Easy way to setup a service worker (*browser-only*).
