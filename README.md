@@ -22,6 +22,7 @@ Then: `const ${module} = require('@cosmic-plus/base/${module}')`
 * **load**: Asynchronously load CSS (*browser-only*).
 * **misc**: Various unrelated methods.
 * **nice**: Nicely format numbers.
+* **observable**: Add event support to *Object*.
 * **page**: Tab-based browsing (*browser-only*).
 * **polyfill**: A few important polyfill (*browser-only*).
 * **service-worker**: Easy way to setup a service worker (*browser-only*).
