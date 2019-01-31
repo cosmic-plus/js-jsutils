@@ -1,6 +1,6 @@
 {
   "name": "@cosmic-plus/jsutils",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "description": "Generic JavaScript utilities that are not related to Stellar",
   "author": "MisterTicot",
   "repository": "github:cosmic-plus/node-jsutils",
@@ -10,6 +10,6 @@
     "lint": "eslint --fix *.js"
   },
   "devDependencies": {
-    "eslint": "^5.9.0"
+    "eslint": "^5.12.1"
   }
 }

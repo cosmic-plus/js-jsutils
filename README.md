@@ -2,8 +2,8 @@
 
 Generic JavaScript utilities that are not related to Stellar.
 
-*Note:* This is an internal library an may be modified in compatibility-breaking
-ways.
+*Note:* This is an internal library and may be modified in
+compatibility-breaking ways.
 
 ## Install
 
@@ -31,5 +31,5 @@ Then: `const ${module} = require('@cosmic-plus/base/${module}')`
 ## Additional Resources
 
 * GitHub repository: https://github.com/cosmic-plus/node-jsutils
-* NPM package: https://npmjs.com/cosmic-plus/jsutils
-* Yarn package: https://yarn.pm/cosmic-plus/jsutils
+* NPM package: https://npmjs.com/@cosmic-plus/jsutils
+* Yarn package: https://yarn.pm/@cosmic-plus/jsutils
