@@ -20,6 +20,7 @@ Then: `const ${module} = require('@cosmic-plus/base/${module}')`
 * **form**: A class to ease form creation (*browser-only*).
 * **html**: A few methods to deal with HTML elements (*browser-only*).
 * **load**: Asynchronously load CSS (*browser-only*).
+* **mirrorable**: Subscribable Arrays.
 * **misc**: Various unrelated methods.
 * **nice**: Nicely format numbers.
 * **observable**: Add event support to *Object*.
