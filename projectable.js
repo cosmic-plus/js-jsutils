@@ -163,8 +163,12 @@ function trapKey (object, key) {
   object[trapped][key] = object[key]
 
   Object.defineProperty(object, key, {
-    get: () => object[trapped][key],
-    set: x => setTrappedKey(object, key, x),
+    get: function () {
+      return this[trapped][key]
+    },
+    set: function (x) {
+      setTrappedKey(this, key, x)
+    },
     configurable: true,
     enumerable: true
   })
