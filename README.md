@@ -18,6 +18,7 @@ Then: `const ${module} = require('@cosmic-plus/base/${module}')`
 - **env**: Check whether we are into a Node.js or browser environment.
 - **file**: Load/save file (_browser-only_).
 - **form**: A class to ease form creation (_browser-only_).
+- **gui**: A light component-driven development solution (_browser-only_).
 - **html**: A few methods to deal with HTML elements (_browser-only_).
 - **load**: Asynchronously load CSS (_browser-only_).
 - **mirrorable**: Subscribable Arrays.
