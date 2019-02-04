@@ -29,6 +29,7 @@ Then: `const ${module} = require('@cosmic-plus/base/${module}')`
 - **page**: Tab-based browsing (_browser-only_).
 - **polyfill**: A few important polyfill (_browser-only_).
 - **service-worker**: Easy way to setup a service worker (_browser-only_).
+- **tabs**: A simple tabbed view generator (_browser_only_).
 
 ## Additional Resources
 
