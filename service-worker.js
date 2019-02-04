@@ -15,8 +15,9 @@ const ServiceWorker = module.exports = class ServiceWorker {
     this.name = name
     this.version = version
     this.verbose = verbose
-    this.hostname = location.host.replace(/:.*/,"")
-    this.enabled = this.hostname !== "localhost" && this.hostname !== "127.0.0.1"
+    this.hostname = location.host.replace(/:.*/, "")
+    this.enabled =
+      this.hostname !== "localhost" && this.hostname !== "127.0.0.1"
     this.root = `${location.protocol}//${location.host}/`
     this.startByRoot = new RegExp("^" + this.root)
     this.timeout = TIMEOUT
@@ -46,19 +47,20 @@ const ServiceWorker = module.exports = class ServiceWorker {
    * Register ServiceWorker.
    */
   register () {
-    self.addEventListener("install", (event) => {
+    self.addEventListener("install", event => {
       this.log(`Installing ${this.cacheName}...`)
-      event.waitUntil(precache(this, this.get)
-        .then(() => self.skipWaiting())
-        .then(() => this.log(`${this.cacheName} installed`))
+      event.waitUntil(
+        precache(this, this.get)
+          .then(() => self.skipWaiting())
+          .then(() => this.log(`${this.cacheName} installed`))
       )
     })
 
-    self.addEventListener("activate", (event) => {
+    self.addEventListener("activate", event => {
       event.waitUntil(wipeCachesExcept(this.cacheName))
     })
 
-    self.addEventListener("fetch", (event) => {
+    self.addEventListener("fetch", event => {
       if (!this.enabled || event.request.method !== "GET") return
       if (!event.request.url.match(this.startByRoot)) return
 
@@ -89,11 +91,12 @@ function precache (worker, files) {
 function wipeCachesExcept (cacheName) {
   return caches.keys().then(function (keys) {
     return Promise.all(
-      keys.map(key => { if (key !== cacheName) caches.delete(key) })
+      keys.map(key => {
+        if (key !== cacheName) caches.delete(key)
+      })
     )
   })
 }
-
 
 /*******************************************************************************
  * Strategies

@@ -20,7 +20,7 @@ misc.delay = function (thunk) {
   return function () {
     if (firstCall) {
       firstCall = false
-      memoized = new Promise((resolve) => resolve(thunk()))
+      memoized = new Promise(resolve => resolve(thunk()))
     }
     return memoized
   }
@@ -33,7 +33,7 @@ misc.delay = function (thunk) {
  * @return {Promise}
  */
 misc.timeout = function (x) {
-  return new Promise(function (resolve) { setTimeout(resolve, x) })
+  return new Promise(resolve => setTimeout(resolve, x))
 }
 
 /**
@@ -119,10 +119,9 @@ misc.isBase64 = function (string) {
   return !!string.match(/^[0-9a-zA-Z+/]*=*$/)
 }
 
-
-
 /**
  * Deprecated functions
  */
 
-misc.copy = () => console.error("misc.copy() have been moved to html.copyString()")
+misc.copy = () =>
+  console.error("misc.copy() have been moved to html.copyString()")

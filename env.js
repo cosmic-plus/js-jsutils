@@ -9,12 +9,14 @@ const env = exports
 /**
  * `true` if we are in a browser environment, `false` otherwise.
  */
-env.isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined"
+env.isBrowser =
+  typeof window !== "undefined" && typeof window.document !== "undefined"
 
 /**
  * `true` if we are in a node.js environment, `false` otherwise.
  */
-env.isNode = typeof process !== "undefined" && process.versions && process.versions.node
+env.isNode =
+  typeof process !== "undefined" && process.versions && process.versions.node
 
 /**
  * `true` if current page is embedded.
@@ -38,5 +40,5 @@ env.global = env.isNode && global
 env.nodeRequire = () => {}
 if (env.isNode) {
   const stealth_require = eval("require")
-  env.nodeRequire = (module) => stealth_require(module)
+  env.nodeRequire = module => stealth_require(module)
 }

@@ -40,7 +40,7 @@ const trapped = ".trapped"
  * @return {undefined}
  */
 method.project = function (keys, dest, transformer, skip) {
-  apply(this, keys, key => { this.link(key, dest, key, transformer, skip) })
+  apply(this, keys, key => this.link(key, dest, key, transformer, skip))
 }
 
 /**
@@ -72,7 +72,7 @@ method.project = function (keys, dest, transformer, skip) {
  * @return {undefined}
  */
 method.link = function (srcKey, dest, destKey = srcKey, transformer, skip) {
-  const projector = (transformer)
+  const projector = transformer
     ? () => dest[destKey] = transformer(this[srcKey])
     : () => dest[destKey] = this[srcKey]
   this.trap(srcKey, projector, dest, skip)
@@ -136,7 +136,7 @@ method.trap = function (keys, callback, source, skip) {
     if (callback) {
       this.listen(`change:${key}`, callback, source)
       if (!this.hasOwnProperty("prototype") && !skip) {
-        callback.call(this, { object: this, key, value: this[key]})
+        callback.call(this, { object: this, key, value: this[key] })
       }
     }
   })
@@ -151,7 +151,6 @@ method.destroy = function () {
   Object.getOwnPropertyNames(this).forEach(key => delete this[key])
 }
 
-
 /**
  * Key trapping
  */
@@ -164,8 +163,8 @@ function trapKey (object, key) {
   object[trapped][key] = object[key]
 
   Object.defineProperty(object, key, {
-    get: function () { return this[trapped][key] },
-    set: function (x) { setTrappedKey(this, key, x) },
+    get: () => object[trapped][key],
+    set: x => setTrappedKey(object, key, x),
     configurable: true,
     enumerable: true
   })
@@ -196,11 +195,12 @@ function setTrappedProperty (object) {
 
 const Projectable = module.exports = class Projectable extends Observable {}
 Projectable.constructorMethods = Object.assign(
-  { define: method.define, trap: method.trap }, Observable.constructorMethods)
+  { define: method.define, trap: method.trap },
+  Observable.constructorMethods
+)
 Projectable.instanceMethods = Object.assign(method, Observable.instanceMethods)
 Projectable.extend(Projectable)
 Projectable.trapped = trapped
-
 
 /**
  * Helpers
@@ -215,7 +215,8 @@ function apply (object, keys, func) {
 function functionParameters (func) {
   const funcString = func.toString()
   const paramsString = funcString.slice(
-    funcString.indexOf("(") + 1, funcString.indexOf(")"))
+    funcString.indexOf("(") + 1,
+    funcString.indexOf(")")
+  )
   return paramsString.match(/([^\s,]+)/g) || []
 }
-

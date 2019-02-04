@@ -32,7 +32,6 @@ module.exports = function (value, opts = {}) {
   return Number(value).toFixed(precision)
 }
 
-
 function precisionAuto (value, opts) {
   if (!opts.significant) opts.significant = 4
   let precision = 0

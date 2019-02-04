@@ -84,8 +84,11 @@ function removeTraps (obj) {
   for (let key = obj[trapped].length; key < obj.length; key++) {
     obj.forget(`change:${key}`)
   }
-  Array.prototype.splice.call(obj,
-    obj[trapped].length, obj.length - obj[trapped].length)
+  Array.prototype.splice.call(
+    obj,
+    obj[trapped].length,
+    obj.length - obj[trapped].length
+  )
 }
 
 function reflect (event) {
@@ -99,7 +102,7 @@ function reflect (event) {
 function propagate (object, params, func1) {
   object.subscribers.forEach(entry => {
     const [array, func2] = entry
-    const values = (func2 && params) ? params.map(func2) : params
+    const values = func2 && params ? params.map(func2) : params
     func1(array, values)
   })
 }

@@ -28,8 +28,11 @@ const html = require("./html")
 load.css = async function (href) {
   return new Promise(function (resolve, reject) {
     const linkNode = html.create("link", {
-      rel: "stylesheet", type: "text/css", href: href,
-      onload: resolve, onerror: reject
+      rel: "stylesheet",
+      type: "text/css",
+      href: href,
+      onload: resolve,
+      onerror: reject
     })
     html.append(document.head, linkNode)
   })

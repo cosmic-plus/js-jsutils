@@ -7,9 +7,12 @@
   "license": "MIT",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint --fix *.js"
+    "prettier": "prettier --write --no-semi '**.js' '**.json' '**.md'",
+    "eslint": "eslint --fix '**.js'",
+    "lint": "npm run prettier && npm run eslint"
   },
   "devDependencies": {
-    "eslint": "^5.12.1"
+    "eslint": "^5.12.1",
+    "prettier": "^1.16.4"
   }
 }

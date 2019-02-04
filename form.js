@@ -138,7 +138,7 @@ module.exports = class Form {
     button.value = text
     button.onclick = () => file.click()
     button.style.float = "left"
-    file.onchange = () => { label.textContent = file.value.replace(/^.*\\/, "") }
+    file.onchange = () => label.textContent = file.value.replace(/^.*\\/, "")
     return this
   }
   addTextArea (name, placeHolder, rows) {
@@ -153,7 +153,7 @@ module.exports = class Form {
   }
 
   optional (nameArray) {
-    nameArray.forEach(name => { this.inputs[name].required = false })
+    nameArray.forEach(name => this.inputs[name].required = false)
     return this
   }
   select () {

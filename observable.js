@@ -78,8 +78,11 @@ method.trigger = function (type, event = this) {
 function callListeners (context, listeners, event) {
   if (!listeners) return
   for (let index in listeners) {
-    try { listeners[index].call(context, event) }
-    catch (error) { console.error(error) }
+    try {
+      listeners[index].call(context, event)
+    } catch (error) {
+      console.error(error)
+    }
   }
 }
 

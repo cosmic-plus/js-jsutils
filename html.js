@@ -15,7 +15,8 @@ const { deprecated } = require("./misc.js")
 /// Prevent node failure when accidentaly loading this file.
 const env = require("./env")
 const document = env.window ? env.window.document : undefined
-if (env.isNode) console.error("@cosmic-plus/jsutils/html is a browser-only module")
+if (env.isNode)
+  console.error("@cosmic-plus/jsutils/html is a browser-only module")
 
 /**
  * Add `string` as additional CSS definitions for the current document.
@@ -34,7 +35,7 @@ html.addStyles = function (styles) {
  * @param {...(HTMLElement|String|Error)} childs
  */
 html.append = function (element, ...childs) {
-  childs.forEach(child => { element.appendChild(html.convert(child)) })
+  childs.forEach(child => element.appendChild(html.convert(child)))
 }
 
 /**
@@ -60,7 +61,7 @@ html.appendClass = function (element, className) {
  * @param {HTMLElement} elements
  * */
 html.clear = function (...elements) {
-  elements.forEach(element => { element.innerHTML = "" })
+  elements.forEach(element => element.innerHTML = "")
 }
 
 /**
@@ -76,7 +77,8 @@ html.convert = function (object) {
     object instanceof Element
     || object instanceof HTMLDocument
     || object instanceof Text
-  ) return object
+  )
+    return object
   else if (object == null) return document.createTextNode("")
   else return object.domNode || document.createTextNode(object)
 }
@@ -130,9 +132,14 @@ html.create = function (name, attributes, ...childs) {
 
   if (typeof attributes === "string") {
     switch (attributes.substr(0, 1)) {
-    case "#": element.id = attributes.substr(1); break
-    case ".": element.className = attributes.substr(1); break
-    default: throw new Error("Unhandled attribute")
+    case "#":
+      element.id = attributes.substr(1)
+      break
+    case ".":
+      element.className = attributes.substr(1)
+      break
+    default:
+      throw new Error("Unhandled attribute")
     }
   } else {
     Object.assign(element, attributes)
