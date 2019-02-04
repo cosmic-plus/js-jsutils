@@ -37,3 +37,31 @@ load.css = async function (href) {
     html.append(document.head, linkNode)
   })
 }
+
+/**
+ * Asynchronously load a script from **href**.
+ *
+ * @example
+ * // Load:
+ * await load.js("my-script.js")
+ *
+ * @example
+ * // Preload:
+ * const preloader = load.js("my-script.js")
+ *
+ * // Then wait for loading to finish:
+ * await preloader
+ *
+ * @async
+ * @param {String} href
+ */
+load.js = async function (href) {
+  return new Promise(function (resolve, reject) {
+    const scriptNode = html.create("script", {
+      src: href,
+      onload: resolve,
+      onerror: reject
+    })
+    html.append(document.head, scriptNode)
+  })
+}
