@@ -13,7 +13,7 @@ const Mirrorable = module.exports = class Mirrorable extends Array {
     super(...params)
     hiddenKey(this, trapped, [])
     hiddenKey(this, "subscribers", [])
-    addTraps(this)
+    initTraps(this)
   }
 
   mirror (func) {
@@ -36,6 +36,7 @@ const Mirrorable = module.exports = class Mirrorable extends Array {
   }
 
   splice (i, suppr, ...objects) {
+    if (this.length > this[trapped].length) initTraps(this)
     const ret = this[trapped].splice(i, suppr, ...objects)
     updateTraps(this)
     propagate(this, objects, (array, values) => {
@@ -48,11 +49,16 @@ const Mirrorable = module.exports = class Mirrorable extends Array {
 
 Projectable.extend(Mirrorable)
 
-function makeMethod (name) {
+/**
+ * Methods that must to be reflected to subscribers
+ */
+
+function makeMethod (method) {
   return function (...params) {
-    const ret = this[trapped][name](...params)
+    if (this.length > this[trapped].length) initTraps(this)
+    const ret = this[trapped][method](...params)
     updateTraps(this)
-    propagate(this, params, (array, values) => array[name](...values))
+    propagate(this, params, (array, values) => array[method](...values))
     this.trigger("change")
     return ret
   }
@@ -65,6 +71,10 @@ methods.forEach(method => Mirrorable.prototype[method] = makeMethod(method))
  * Helpers
  */
 
+function initTraps (obj) {
+  obj.forEach((_, key) => obj.trap(String(key), reflect, null, true))
+}
+
 function updateTraps (obj) {
   const diff = obj[trapped].length - obj.length
   if (diff < 0) removeTraps(obj)
@@ -75,8 +85,7 @@ function addTraps (obj) {
   for (let key = obj.length; key < obj[trapped].length; key++) {
     obj[key] = obj[trapped][key]
     delete obj[trapped][key]
-    obj.trap(String(key))
-    obj.listen(`change:${key}`, reflect)
+    obj.trap(String(key), reflect, null, true)
   }
 }
 
