@@ -56,14 +56,16 @@ Tabs.Content = class TabsContent {
 
 Tabs.Nav = class TabsNav extends Gui {
   constructor (tabs) {
-    super("<nav>%links...</nav>")
+    super(`<nav class="TabsNav">%links...</nav>`)
     this.links = tabs.mirror(tab => tab.link)
   }
 }
 
 Tabs.Selector = class TabsSelector extends Gui {
   constructor (tabs) {
-    super("<select %onchange value=%selected>%options...</select>")
+    super(
+      `<select class="TabsSelector" %onchange value=%selected>%options...</select>`
+    )
     this.onchange = event => event.target.selectedOptions[0].onselect()
     this.options = tabs.mirror(content => content.option)
     tabs.project("selected", this, content => content && content.id)
@@ -72,7 +74,7 @@ Tabs.Selector = class TabsSelector extends Gui {
 
 Tabs.View = class TabsView extends Gui {
   constructor (tabs) {
-    super("<div>%content</div>")
+    super(`<div class="TabsView">%content</div>`)
     tabs.link("selected", this, "content", x => x && x.domNode)
   }
 }
