@@ -39,7 +39,6 @@ module.exports = class Gui extends Projectable {
     } else {
       this.domNode = content.childNodes[0]
     }
-    html.addClass(this.domNode, this.__proto__.constructor.name)
 
     Object.defineProperty(this, "domNode", {
       enumerable: false,
@@ -53,6 +52,7 @@ module.exports = class Gui extends Projectable {
       const keysFiltered = keys.filter(key => key !== "style")
       if (values instanceof Projectable) values.project(keysFiltered, this)
       else keysFiltered.forEach(key => this[key] = values[key])
+      if (keys.indexOf("style") !== -1) Object.assign(this.style, values.style)
     }
 
     this.listen("destroy", () => this.domNode.innerHTML = null)
@@ -101,19 +101,14 @@ function variable (_, func, identifier) {
 function rewriteNode (obj, el) {
   if (el.attributes) rewriteAttributes(obj, el)
   if (el.nodeName === "TEMPLATE") rewriteTemplate(obj, el)
-  let prev = null
-  el.childNodes.forEach(child => {
-    if (child === prev) confirm("houla")
-    rewriteNode(obj, child)
-    prev = child
-  })
+  el.childNodes.forEach(child => rewriteNode(obj, child))
 }
 
 function rewriteAttributes (obj, el) {
   Object.values(el.attributes)
-    .filter(x => x.name)
+    .filter(attribute => attribute.name)
     .forEach(attribute => {
-      if (attribute.name === "-ref" && attribute.value.match(/%(\w+)/)) {
+      if (attribute.name === "-ref" && attribute.value.match(/^%\w+$/)) {
         obj[attribute.value.substr(1)] = el
       } else if (attribute.name === "-label") {
         const node = html.create(
@@ -122,10 +117,10 @@ function rewriteAttributes (obj, el) {
           html.create("span", null, attribute.value)
         )
         el.parentNode.insertBefore(node, el.nextSibling)
-        // TODO: better aliases for :group
+        // TODO: better aliases for -group
       } else if (
         attribute.name === "-group"
-        && attribute.value.substr(0, 1) === "%"
+        && attribute.value.match(/^%\w+$/)
       ) {
         const key = attribute.value.substr(1)
         if (!obj[key]) obj[key] = { name: uniqueName(), childs: [] }
@@ -137,11 +132,11 @@ function rewriteAttributes (obj, el) {
         const src = attribute.name.substr(1)
         linkAttribute(obj, src, el, src)
         el.attributes.removeNamedItem(attribute.name)
-      } else if (attribute.value.match(/^%\w*:\w*$/)) {
+      } else if (attribute.value.match(/^%\w+:\w+$/)) {
         const dest = attribute.name
         const [func, src] = attribute.value.substr(1).split(":")
-        linkAttribute(obj, src, el, dest, obj[func])
-      } else if (attribute.value.match(/^%\w*$/)) {
+        linkAttribute(obj, src, el, dest, obj[func].bind(obj))
+      } else if (attribute.value.match(/^%\w+$/)) {
         const dest = attribute.name
         const src = attribute.value.substr(1)
         linkAttribute(obj, src, el, dest)
@@ -201,14 +196,10 @@ function rewriteVariable (object, el) {
   let currentNode = el
 
   const key = el.innerHTML
-  const func = el.dataset.func && object[el.dataset.func]
+  const func = el.dataset.func && object[el.dataset.func].bind(object)
   const replacer = func
-    ? () => {
-      currentNode = html.replace(currentNode, func(object[key]))
-    }
-    : () => {
-      currentNode = html.replace(currentNode, object[key])
-    }
+    ? () => currentNode = html.replace(currentNode, func(object[key]))
+    : () => currentNode = html.replace(currentNode, object[key])
 
   object.trap(key, replacer, null, true)
 
@@ -218,7 +209,7 @@ function rewriteVariable (object, el) {
 
 function rewriteEllipsis (obj, el) {
   const key = el.innerHTML
-  const func = el.dataset.func && obj[el.dataset.func]
+  const func = el.dataset.func && obj[el.dataset.func].bind(obj)
 
   let ellipsis = [],
     ref = html.convert("")
