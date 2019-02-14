@@ -241,6 +241,7 @@ function expandEllipsis (ref, oldNodes, array = []) {
     }
   })
 
+  if (!(array instanceof Array)) array = [array]
   const ellipsis = []
   array.forEach(entry => {
     const node = html.convert(entry)
