@@ -100,13 +100,11 @@ method.link = function (srcKey, dest, destKey = srcKey, transformer, skip) {
  * @param  {Function} definition
  * @return {undefined}
  */
-method.define = function (key, definition, skip) {
-  const params = functionParameters(definition)
+method.define = function (key, depends, definition, skip) {
   const compute = function () {
-    const args = params.map(x => this[x])
-    this[key] = definition.apply(this, args)
+    this[key] = definition.call(this)
   }
-  this.trap(params, compute, skip)
+  this.trap(depends, compute, skip)
   this.listen(`compute:${key}`, compute)
 }
 
@@ -221,13 +219,4 @@ function apply (object, keys, func) {
   if (keys === "*") keys = Object.keys(object)
   if (keys instanceof Array) keys.forEach(x => func(x))
   else if (typeof keys === "string") func(keys)
-}
-
-function functionParameters (func) {
-  const funcString = func.toString()
-  const paramsString = funcString.slice(
-    funcString.indexOf("(") + 1,
-    funcString.indexOf(")")
-  )
-  return paramsString.match(/([^\s,]+)/g) || []
 }
