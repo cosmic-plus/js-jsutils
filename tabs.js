@@ -18,22 +18,33 @@ const Tabs = module.exports = class Tabs extends Mirrorable {
     if (options.view) html.append(options.view, this.view)
   }
 
-  add (id, name, node, select) {
-    this.push(new Tabs.Content(this, id, name, node))
-    if (select) this.select(id)
+  add (id, name, content, select) {
+    this.push(new Tabs.Content(this, id, name, content))
+    if (select || !this.selected) this.select(id)
   }
 
   remove (id) {
     const index = this.findIndex(content => content.id === id)
+    const content = this[index]
+    if (this.selected === content) this.select()
     if (index != null) this.splice(index, 1)
   }
 
+  clear () {
+    this.splice(0, this.length)
+  }
+
   select (id) {
-    if (this.selected) this.selected.link.className = ""
-    this.selected = this.find(content => content.id === id)
     if (this.selected) {
-      this.selected.link.className = "selected"
+      this.selected.destroy()
+      this.selected.link.className = ""
     }
+    const selected = this.find(content => content.id === id)
+    if (selected) {
+      selected.generate()
+      selected.link.className = "selected"
+    }
+    this.selected = selected
     this.trigger("select", id)
   }
 }
@@ -43,7 +54,10 @@ Tabs.Content = class TabsContent {
     this.id = id
     this.name = name
     this.content = content
-    this.domNode = html.convert(content)
+    if (content.parentNode && content.parentNode.removeChild) {
+      content.parentNode.removeChild(content)
+    }
+
     this.select = () => tabs.selected === this || tabs.select(id)
     this.link = html.create("a", { onclick: this.select }, name)
     this.option = html.create(
@@ -51,6 +65,19 @@ Tabs.Content = class TabsContent {
       { onselect: this.select, value: id },
       name
     )
+  }
+
+  generate () {
+    if (typeof this.content === "function") {
+      this.component = this.content()
+      this.domNode = html.convert(this.component)
+    } else if (!this.domNode) {
+      this.domNode = html.convert(this.content)
+    }
+  }
+
+  destroy () {
+    if (this.component && this.component.destroy) this.component.destroy()
   }
 }
 
