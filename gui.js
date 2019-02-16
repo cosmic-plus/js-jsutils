@@ -64,25 +64,30 @@ module.exports = class Gui extends Projectable {
  */
 
 function expand (template) {
-  // Apply only on content outside of HTML tags.
-  return template.replace(/(^|>)[^<>]*(<|$)/g, string =>
-    string
-      // %function:identifier...
-      .replace(/%(\w+):(\w+)\.\.\./g, ellipsis)
-      // %identifier...
-      .replace(/%()(\w+)\.\.\./g, ellipsis)
-      // %{function:identifier...}
-      .replace(/%{(\w+):(\w+)\.\.\.}/g, ellipsis)
-      // %{identifier...}
-      .replace(/%{()(\w+)\.\.\.}/g, ellipsis)
-      // %function:identifier
-      .replace(/%(\w+):(\w+)/g, variable)
-      // %identifier
-      .replace(/%()(\w+)/g, variable)
-      // %{function:identifier}
-      .replace(/%{(\w+):(\w+)}/g, variable)
-      // %{identifier}
-      .replace(/%{()(\w+)}/g, variable)
+  return (
+    template
+      // firefox fix
+      .replace(/\s(on\w+)=(%\w+)/g, " .$1=$2")
+      // Apply only on content outside of HTML tags.
+      .replace(/(^|>)[^<>]*(<|$)/g, string =>
+        string
+          // %function:identifier...
+          .replace(/%(\w+):(\w+)\.\.\./g, ellipsis)
+          // %identifier...
+          .replace(/%()(\w+)\.\.\./g, ellipsis)
+          // %{function:identifier...}
+          .replace(/%{(\w+):(\w+)\.\.\.}/g, ellipsis)
+          // %{identifier...}
+          .replace(/%{()(\w+)\.\.\.}/g, ellipsis)
+          // %function:identifier
+          .replace(/%(\w+):(\w+)/g, variable)
+          // %identifier
+          .replace(/%()(\w+)/g, variable)
+          // %{function:identifier}
+          .replace(/%{(\w+):(\w+)}/g, variable)
+          // %{identifier}
+          .replace(/%{()(\w+)}/g, variable)
+      )
   )
 }
 
@@ -147,6 +152,7 @@ function rewriteAttributes (obj, el) {
 function linkAttribute (obj, src, el, dest, func) {
   if (dest === "class") dest = "className"
   if (dest === "style") obj[src] = el.style
+  if (dest.substr(0, 3) === ".on") dest = dest.substr(1)
 
   // Make sure two-way binding happens before onchange/onclick event.
   // TODO: check if a clearer way exists.
