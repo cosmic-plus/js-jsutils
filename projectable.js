@@ -142,6 +142,13 @@ method.trap = function (keys, callback, source, skip) {
   })
 }
 
+method.set = function (keys, value) {
+  apply(this, keys, key => {
+    if (this[trapped]) delete this[trapped][key]
+    this[key] = value
+  })
+}
+
 /**
  * Trigger the `destroy` event and remove all cross-references.
  */
