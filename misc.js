@@ -120,6 +120,17 @@ misc.isBase64 = function (string) {
 }
 
 /**
+ * Return the YYYY-MM-DD date for **time** or for today.
+ *
+ * @param {String|Number} [time] A valid date/timestamp value
+ * @return {String} YYYY-MM-DD date
+ */
+misc.day = function (time) {
+  const date = time ? new Date(time) : new Date()
+  return date.toISOString().replace(/T.*/, "")
+}
+
+/**
  * Deprecated functions
  */
 
