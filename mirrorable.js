@@ -35,14 +35,6 @@ const Mirrorable = module.exports = class Mirrorable extends Array {
     compute()
   }
 
-  guard (params) {
-    if (params.exit) this.listen("remove", params.exit)
-    if (params.entry) {
-      this.listen("add", params.entry)
-      this.forEach(value => params.entry(value))
-    }
-  }
-
   splice (i, suppr, ...objects) {
     if (this.length > this[trapped].length) initTraps(this)
     const removed = this.slice(i, suppr)
