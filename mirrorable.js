@@ -37,11 +37,14 @@ const Mirrorable = module.exports = class Mirrorable extends Array {
 
   splice (i, suppr, ...objects) {
     if (this.length > this[trapped].length) initTraps(this)
+    const removed = this.slice(i, suppr)
     const ret = this[trapped].splice(i, suppr, ...objects)
     updateTraps(this)
     propagate(this, objects, (array, values) => {
       array.splice(i, suppr, ...values)
     })
+    removed.forEach(value => this.trigger("remove", value))
+    objects.forEach(value => this.trigger("add", value))
     this.trigger("change")
     return ret
   }
@@ -53,19 +56,25 @@ Projectable.extend(Mirrorable)
  * Methods that must to be reflected to subscribers
  */
 
-function makeMethod (method) {
+function makeMethod (method, addFlag) {
   return function (...params) {
     if (this.length > this[trapped].length) initTraps(this)
     const ret = this[trapped][method](...params)
     updateTraps(this)
     propagate(this, params, (array, values) => array[method](...values))
     this.trigger("change")
+    if (addFlag) params.forEach(value => this.trigger("add", value))
+    else this.trigger("remove", ret)
     return ret
   }
 }
 
-const methods = ["pop", "push", "shift", "unshift"]
-methods.forEach(method => Mirrorable.prototype[method] = makeMethod(method))
+const methods1 = ["push", "unshift"]
+const methods2 = ["pop", "shift"]
+methods1.forEach(
+  method => Mirrorable.prototype[method] = makeMethod(method, true)
+)
+methods2.forEach(method => Mirrorable.prototype[method] = makeMethod(method))
 
 /**
  * Helpers
