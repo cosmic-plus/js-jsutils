@@ -37,12 +37,12 @@ const Tabs = module.exports = class Tabs extends Mirrorable {
   select (id) {
     if (this.selected) {
       this.selected.destroy()
-      this.selected.link.className = ""
+      if (this.selected.link) this.selected.link.className = ""
     }
     const selected = this.find(content => content.id === id)
     if (selected) {
       selected.generate()
-      selected.link.className = "selected"
+      if (selected.link) selected.link.className = "selected"
     }
     this.selected = selected
     this.trigger("select", id)
@@ -59,12 +59,15 @@ Tabs.Content = class TabsContent {
     }
 
     this.select = () => tabs.selected === this || tabs.select(id)
-    this.link = html.create("a", { onclick: this.select }, name)
-    this.option = html.create(
-      "option",
-      { onselect: this.select, value: id },
-      name
-    )
+
+    if (name) {
+      this.link = html.create("a", { onclick: this.select }, name)
+      this.option = html.create(
+        "option",
+        { onselect: this.select, value: id },
+        name
+      )
+    }
   }
 
   generate () {
