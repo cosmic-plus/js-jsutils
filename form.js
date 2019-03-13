@@ -62,6 +62,7 @@ module.exports = class Form {
   async setInfo (info) {
     this.infoNode.textContent = info
     this.infoNode.className = "info"
+    html.append(this.infoNode, html.create("span", ".cosmiclib_loader"))
     await helpers.timeout(30)
     return this
   }
