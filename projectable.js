@@ -148,15 +148,6 @@ method.set = function (keys, value) {
 }
 
 /**
- * Trigger the `destroy` event and remove all cross-references.
- */
-// TODO: move this to observable?
-method.destroy = function () {
-  this.trigger("destroy")
-  Object.getOwnPropertyNames(this).forEach(key => delete this[key])
-}
-
-/**
  * Key trapping
  */
 
