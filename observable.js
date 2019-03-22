@@ -15,71 +15,70 @@ const method = {}
 const listeners = ".listeners"
 
 /**
- * Set **callback** as an event listener for **type**.
+ * Add **eventHandler** as an event listener for **eventName**.
  *
- * @param {String} type
- * @param {Function} callback
- * @param {Object} crossRef
+ * @param {String} eventName
+ * @param {Function} eventHandler
+ * @param {Object} [crossReference]
  */
-method.listen = function (type, callback, crossRef) {
+method.listen = function (eventName, eventHandler, crossReference) {
   if (!this.hasOwnProperty(listeners)) hiddenKey(this, listeners, {})
-  if (!this[listeners][type]) this[listeners][type] = []
-  this[listeners][type].push(callback)
+  if (!this[listeners][eventName]) this[listeners][eventName] = []
+  this[listeners][eventName].push(eventHandler)
 
-  // Remove cross-references to allow garbage collection.
-  if (crossRef && crossRef.listen) {
+  // Automatically remove cross-references to allow garbage collection.
+  if (crossReference && crossReference.listen) {
     const remover = () => {
-      this.forget(type, callback)
+      this.forget(eventName, eventHandler)
       this.forget("destroy", remover)
-      crossRef.forget("destroy", remover)
+      crossReference.forget("destroy", remover)
     }
     this.listen("destroy", remover)
-    crossRef.listen("destroy", remover)
+    crossReference.listen("destroy", remover)
   }
 }
 
 /**
- * When both **type** and **callback** are provided, remove **callback** from
- * listening **type**.
+ * When both parameters are provided, remove **eventHandler** from **eventName**
+ * listeners. When only **eventName** is provided, clear all its listeners.
+ * When no parameter is provided, remove all listeners for all events.
  *
- * When only **type** is provided, remove all callbacks for **type**.
- *
- * When no parameter is provided, remove all callbacks for all events.
- *
- * @param  {String} type Event ID
- * @param  {Function} callback
+ * @param  {String} [eventName]
+ * @param  {Function} [eventHandler]
  */
-method.forget = function (type, callback) {
+method.forget = function (eventName, eventHandler) {
   if (!this.hasOwnProperty(listeners)) return
-  if (!type) {
+  if (!eventName) {
     this[listeners] = {}
-  } else if (!callback) {
-    delete this[listeners][type]
-  } else if (this[listeners][type]) {
-    this[listeners][type] = this[listeners][type].filter(x => x !== callback)
+  } else if (!eventHandler) {
+    delete this[listeners][eventName]
+  } else if (this[listeners][eventName]) {
+    this[listeners][eventName] = this[listeners][eventName].filter(
+      listener => listener !== eventHandler
+    )
   }
 }
 
 /**
- * Trigger event **type**, with event object **event**.
+ * Call **eventName** listeners with parameter **eventObject**.
  *
- * @param  {String} type
- * @param  {Object} event
+ * @param  {String} eventName
+ * @param  {Object} eventObject
  */
-method.trigger = function (type, event = this) {
+method.trigger = function (eventName, eventObject = this) {
   // TODO: return instead of create listeners key
   if (!this.hasOwnProperty(listeners)) hiddenKey(this, listeners, {})
   if (this.constructor[listeners]) {
-    callListeners(this, this.constructor[listeners][type], event)
+    callListeners(this, this.constructor[listeners][eventName], eventObject)
   }
-  callListeners(this, this[listeners][type], event)
+  callListeners(this, this[listeners][eventName], eventObject)
 }
 
-function callListeners (context, listeners, event) {
+function callListeners (context, listeners, eventObject) {
   if (!listeners) return
   for (let index in listeners) {
     try {
-      listeners[index].call(context, event)
+      listeners[index].call(context, eventObject)
     } catch (error) {
       console.error(error)
     }
