@@ -28,13 +28,16 @@ method.listen = function (eventName, eventHandler, crossReference) {
 
   // Automatically remove cross-references to allow garbage collection.
   if (crossReference && crossReference.listen) {
-    const remover = () => {
-      this.forget(eventName, eventHandler)
-      this.forget("destroy", remover)
-      crossReference.forget("destroy", remover)
+    const onObservableDestruction = () => {
+      crossReference.forget("destroy", onCrossReferenceDestruction)
     }
-    this.listen("destroy", remover)
-    crossReference.listen("destroy", remover)
+    const onCrossReferenceDestruction = () => {
+      this.forget(eventName, eventHandler)
+      this.forget("destroy", onObservableDestruction)
+    }
+
+    this.listen("destroy", onObservableDestruction)
+    crossReference.listen("destroy", onCrossReferenceDestruction)
   }
 }
 
