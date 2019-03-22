@@ -69,12 +69,12 @@ method.forget = function (eventName, eventHandler) {
  * @param  {Object} eventObject
  */
 method.trigger = function (eventName, eventObject = this) {
-  // TODO: return instead of create listeners key
-  if (!this.hasOwnProperty(listeners)) hiddenKey(this, listeners, {})
   if (this.constructor[listeners]) {
     callListeners(this, this.constructor[listeners][eventName], eventObject)
   }
-  callListeners(this, this[listeners][eventName], eventObject)
+  if (this.hasOwnProperty(listeners)) {
+    callListeners(this, this[listeners][eventName], eventObject)
+  }
 }
 
 function callListeners (context, listeners, eventObject) {
