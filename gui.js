@@ -66,37 +66,37 @@ module.exports = class Gui extends Projectable {
 function expand (template) {
   return (
     template
-      // firefox fix
+      // Firefox fix
       .replace(/\s(on\w+)=(%\w+)/g, " .$1=$2")
       // Apply only on content outside of HTML tags.
       .replace(/(^|>)[^<>]*(<|$)/g, string =>
         string
           // %function:identifier...
-          .replace(/%(\w+):(\w+)\.\.\./g, ellipsis)
+          .replace(/(^|[^\\])%(\w+):(\w+)\.\.\./g, ellipsis)
           // %identifier...
-          .replace(/%()(\w+)\.\.\./g, ellipsis)
+          .replace(/(^|[^\\])%()(\w+)\.\.\./g, ellipsis)
           // %{function:identifier...}
-          .replace(/%{(\w+):(\w+)\.\.\.}/g, ellipsis)
+          .replace(/(^|[^\\])%{(\w+):(\w+)\.\.\.}/g, ellipsis)
           // %{identifier...}
-          .replace(/%{()(\w+)\.\.\.}/g, ellipsis)
+          .replace(/(^|[^\\])%{()(\w+)\.\.\.}/g, ellipsis)
           // %function:identifier
-          .replace(/%(\w+):(\w+)/g, variable)
+          .replace(/(^|[^\\])%(\w+):(\w+)/g, variable)
           // %identifier
-          .replace(/%()(\w+)/g, variable)
+          .replace(/(^|[^\\])%()(\w+)/g, variable)
           // %{function:identifier}
-          .replace(/%{(\w+):(\w+)}/g, variable)
+          .replace(/(^|[^\\])%{(\w+):(\w+)}/g, variable)
           // %{identifier}
-          .replace(/%{()(\w+)}/g, variable)
+          .replace(/(^|[^\\])%{()(\w+)}/g, variable)
       )
   )
 }
 
-function ellipsis (_, func, identifier) {
-  return `<template data-type="ellipsis" data-func="${func}">${identifier}</template>`
+function ellipsis (_, prevchar, func, identifier) {
+  return `${prevchar}<template data-type="ellipsis" data-func="${func}">${identifier}</template>`
 }
 
-function variable (_, func, identifier) {
-  return `<template data-type="variable" data-func="${func}">${identifier}</template>`
+function variable (_, prevchar, func, identifier) {
+  return `${prevchar}<template data-type="variable" data-func="${func}">${identifier}</template>`
 }
 
 /**
