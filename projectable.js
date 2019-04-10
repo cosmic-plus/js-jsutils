@@ -16,8 +16,8 @@ const method = {}
 const trapped = ".trapped"
 
 /**
- * Project **keys** to **dest**. If provided, apply **transformer** to the
- * values.
+ * Project properties **keys** to **dest** object each time they are updated. If
+ * provided, apply **transformer** to those values.
  *
  * @example
  * const projectable = new Projectable()
@@ -36,16 +36,17 @@ const trapped = ".trapped"
  *
  * @param  {String|...String} keys
  * @param  {Object} dest
- * @param  {Function} [func]
- * @return {undefined}
+ * @param  {Function} [transformer]
  */
-method.project = function (keys, dest, transformer, skip) {
-  apply(this, keys, key => this.link(key, dest, key, transformer, skip))
+method.project = function (keys, dest, transformer) {
+  apply(this, keys, key => {
+    this.link(key, dest, key, transformer)
+  })
 }
 
 /**
  * Link projectable **srcKey** to **dest** **destKey**. If provided, apply
- * **transformer** to the values.
+ * **transformer** to this value.
  *
  * @example
  * const projectable = new Projectable()
@@ -69,23 +70,24 @@ method.project = function (keys, dest, transformer, skip) {
  * @param  {Object} dest
  * @param  {String} [destKey=srcKey]
  * @param  {Function} [transformer]
- * @return {undefined}
  */
-method.link = function (srcKey, dest, destKey = srcKey, transformer, skip) {
+method.link = function (srcKey, dest, destKey = srcKey, transformer) {
+  const crossReference = this !== dest && dest
   const projector = transformer
     ? () => dest[destKey] = transformer(this[srcKey])
     : () => dest[destKey] = this[srcKey]
-  this.trap(srcKey, projector, dest, skip)
+
+  this.trap(srcKey, projector, { crossReference })
 }
 
 /**
- * Creates a dynamic **definition** for **key**, that is updated each time the
- * projectable properties it depends on are modified.
+ * Creates a dynamic **definition** for **key** that is updated each time the
+ * projectable properties it **depends** on are modified.
  *
  * @example
  * const projectable = new Projectable()
- * projectable.define("sum", (a, b) => a + b)
- * projectable.define("prod", (a, b) => a * b)
+ * projectable.define("sum", ["a", "b"], () => projectable.a + projectable.b)
+ * projectable.define("prod", ["a", "b"], () => projectable.a * projectable.b)
  *
  * projectable.a = 3
  * projectable.b = 5
@@ -96,16 +98,19 @@ method.link = function (srcKey, dest, destKey = srcKey, transformer, skip) {
  * console.log(projectable.sum)     // => 15
  * console.log(projectable.prod)    // => 50
  *
- * @param  {String} key
- * @param  {Function} definition
- * @return {undefined}
+ * @param  {String} A property to be defined.
+ * @param  {String|...String} depends One or more property it depends on.
+ * @param  {Function} definition A function that compute the defined property.
  */
-method.define = function (key, depends, definition, skip) {
+method.define = function (key, depends, definition) {
   const compute = function () {
     this[key] = definition.call(this)
   }
-  this.trap(depends, compute, skip)
-  this.listen(`compute:${key}`, compute)
+  this.trap(depends, compute)
+  this.listen(`outdate:${key}`, compute)
+
+  // If definition is not at constructor level, immediately compute property.
+  if (this.trigger) compute()
 }
 
 /**
@@ -125,7 +130,7 @@ method.define = function (key, depends, definition, skip) {
  * @return {undefined}
  */
 method.compute = function (keys) {
-  apply(this, keys, key => this.trigger(`compute:${key}`))
+  apply(this, keys, key => this.trigger(`outdate:${key}`))
 }
 
 method.trap = function (keys, callback, source, skip) {
