@@ -43,8 +43,8 @@ const Mirrorable = module.exports = class Mirrorable extends Array {
     propagate(this, objects, (array, values) => {
       array.splice(i, suppr, ...values)
     })
-    removed.forEach(value => this.trigger("remove", value))
     objects.forEach(value => this.trigger("add", value))
+    removed.forEach(value => this.trigger("remove", value))
     this.trigger("change")
     return ret
   }
@@ -59,13 +59,13 @@ Projectable.extend(Mirrorable)
 function makeMethod (method, addFlag) {
   return function (...params) {
     if (this.length > this[trapped].length) initTraps(this)
-    const ret = this[trapped][method](...params)
+    const returned = this[trapped][method](...params)
     updateTraps(this)
     propagate(this, params, (array, values) => array[method](...values))
-    this.trigger("change")
     if (addFlag) params.forEach(value => this.trigger("add", value))
-    else this.trigger("remove", ret)
-    return ret
+    else this.trigger("remove", returned)
+    this.trigger("change")
+    return returned
   }
 }
 
