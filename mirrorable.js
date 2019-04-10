@@ -81,7 +81,7 @@ methods2.forEach(method => Mirrorable.prototype[method] = makeMethod(method))
  */
 
 function initTraps (obj) {
-  obj.forEach((_, key) => obj.trap(String(key), reflect, null, true))
+  obj.forEach((_, key) => obj.trap(String(key), reflect, { init: false }))
 }
 
 function updateTraps (obj) {
@@ -94,7 +94,7 @@ function addTraps (obj) {
   for (let key = obj.length; key < obj[trapped].length; key++) {
     obj[key] = obj[trapped][key]
     delete obj[trapped][key]
-    obj.trap(String(key), reflect, null, true)
+    obj.trap(String(key), reflect, { init: false })
   }
 }
 

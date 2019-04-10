@@ -207,7 +207,7 @@ function rewriteVariable (object, el) {
     ? () => currentNode = html.replace(currentNode, func(object[key]))
     : () => currentNode = html.replace(currentNode, object[key])
 
-  object.trap(key, replacer, null, true)
+  object.trap(key, replacer, { init: false })
 
   // Two-way binding
   // if (parent.tagName === "TEXTAREA" &&)
@@ -236,7 +236,7 @@ function rewriteEllipsis (obj, el) {
     if (func && event.value) compute(event.value.map(func))
     else compute(event.value)
   }
-  obj.trap(key, update, null, true)
+  obj.trap(key, update, { init: false })
 }
 
 function expandEllipsis (ref, oldNodes, array = []) {

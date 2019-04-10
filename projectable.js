@@ -133,12 +133,14 @@ method.compute = function (keys) {
   apply(this, keys, key => this.trigger(`outdate:${key}`))
 }
 
-method.trap = function (keys, callback, source, skip) {
+method.trap = function (keys, callback, options = {}) {
+  if (options.init === undefined) options.init = true
+
   apply(this, keys, key => {
     trapKey(this, key)
     if (callback) {
-      this.listen(`change:${key}`, callback, source)
-      if (!this.hasOwnProperty("prototype") && !skip) {
+      this.listen(`change:${key}`, callback, options.crossReference)
+      if (!this.hasOwnProperty("prototype") && options.init) {
         callback.call(this, { object: this, key, value: this[key] })
       }
     }
