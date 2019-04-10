@@ -145,6 +145,10 @@ method.trap = function (keys, callback, source, skip) {
   })
 }
 
+method.untrap = function (keys) {
+  apply(this, keys, key => this.forget(`change:${key}`))
+}
+
 method.set = function (keys, value) {
   apply(this, keys, key => {
     if (this[trapped]) delete this[trapped][key]
