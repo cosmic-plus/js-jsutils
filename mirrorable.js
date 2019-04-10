@@ -21,7 +21,7 @@ const Mirrorable = module.exports = class Mirrorable extends Array {
     this.subscribers.push([array, func])
     this.project("*", array, func)
     array.trap("*")
-    hiddenKey(array, "destroy", () => {
+    array.listen("destroy", () => {
       this.subscribers = this.subscribers.filter(x => x[0] !== array)
     })
     return array
@@ -100,7 +100,7 @@ function addTraps (obj) {
 
 function removeTraps (obj) {
   for (let key = obj[trapped].length; key < obj.length; key++) {
-    obj.forget(`change:${key}`)
+    obj.untrap(key)
   }
   Array.prototype.splice.call(
     obj,
