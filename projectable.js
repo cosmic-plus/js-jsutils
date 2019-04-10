@@ -1,10 +1,6 @@
 "use_strict"
 /**
  * Methods that allow to project an object changes toward another.
- *
- * TODO: pass utils at prototype level
- *
- * @type {[type]}
  */
 const hiddenKey = require("./misc").setHiddenProperty
 const Observable = require("./observable")
@@ -131,6 +127,33 @@ method.define = function (key, depends, definition) {
  */
 method.compute = function (keys) {
   apply(this, keys, key => this.trigger(`outdate:${key}`))
+}
+
+/**
+ * Trigger **callback** each time **projectable** **keys** changes. This method
+ * takes care of cross-reference removal in case `this` or `projectable` gets
+ * destroyed.
+ *
+ * @example
+ * const projectable1 = new Projectable()
+ * const projectable2 = new Projectable()
+ *
+ * projectable1.count = 1
+ * projectable1.increment = () => projectable1.count++
+ *
+ * projectable2.outdated = false
+ * projectable2.watch(projectable1, "count", () => projectable2.outdated = true)
+ *
+ * console.log(projectable2.outdated)  // => false
+ * projectable1.increment()
+ * console.log(projectable2.outdated)  // => true
+ *
+ * @param  {Projectable} projectable The source from which properties are red.
+ * @param  {String|...String} keys One or more properties.
+ * @param  {Function} [callback] A transformation to apply to those properties.
+ */
+method.watch = function (projectable, keys, callback) {
+  projectable.trap(keys, callback, { crossReference: this })
 }
 
 method.trap = function (keys, callback, options = {}) {
