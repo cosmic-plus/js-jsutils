@@ -75,8 +75,10 @@ method.trigger = function (eventName, eventObject = this) {
   if (this.hasOwnProperty(listeners)) {
     callListeners(this, this[listeners][eventName], eventObject)
   }
-  const eventKey = `on${eventName}`
-  if (this[eventKey]) this[eventKey](eventObject)
+
+  // Removed because of conflicts with gui.js %on{eventName}.
+  // const eventKey = `on${eventName}`
+  // if (this[eventKey]) this[eventKey](eventObject)
 }
 
 function callListeners (context, listeners, eventObject) {
