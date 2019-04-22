@@ -5,10 +5,11 @@
   "author": "MisterTicot",
   "repository": "github:cosmic-plus/node-jsutils",
   "license": "MIT",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prettier": "prettier --write --no-semi '**.js' '**.json' '**.md'",
-    "eslint": "eslint --fix '**.js'",
+    "prettier": "prettier --write --no-semi 'src/*.js' '*.json' '*.md'",
+    "eslint": "eslint --fix 'src/*.js'",
     "lint": "npm run prettier && npm run eslint"
   },
   "devDependencies": {

@@ -10,7 +10,9 @@ compatibility-breaking ways.
 - **Npm** `npm install @cosmic-plus/jsutils`
 - **Yarn** `yarn add @cosmic-plus/jsutils`
 
-Then: `const ${module} = require('@cosmic-plus/base/${module}')`
+Then: `const { $module, ... } = require("@cosmic-plus/jsutils")`
+
+To pick a module: `const $module = require("@cosmic-plus/jsutils/src/$module")`
 
 ## Modules
 

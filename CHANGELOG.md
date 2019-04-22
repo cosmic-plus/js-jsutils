@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+### Breaking
+
+- Move code to `./src`.
+
 ## 1.15.0 - 2019-04-12
 
 ### Added
