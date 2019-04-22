@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Bundle transpiled ES5 code within the package.
+- Enable tree shaking for Webpack & Parcel (Rollup needs some additional work).
 
 ## 1.15.0 - 2019-04-12
 
