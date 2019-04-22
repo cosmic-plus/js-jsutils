@@ -12,7 +12,7 @@ compatibility-breaking ways.
 
 Then: `const { $module, ... } = require("@cosmic-plus/jsutils")`
 
-To pick a module: `const $module = require("@cosmic-plus/jsutils/src/$module")`
+To pick a module: `const $module = require("@cosmic-plus/jsutils/es5/$module")`
 
 ## Modules
 

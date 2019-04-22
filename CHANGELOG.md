@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file.
 
 - Move code to `./src`.
 
+### Added
+
+- Bundle transpiled ES5 code within the package.
+
 ## 1.15.0 - 2019-04-12
 
 ### Added
