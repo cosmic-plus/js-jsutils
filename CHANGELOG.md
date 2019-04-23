@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Breaking
 
 - Move code to `./src`.
+- Split package in two (`@cosmic-plus/jsutils` & `@cosmic-plus/domutils`).
 
 ### Added
 
