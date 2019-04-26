@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 2.0.0 - 2019-04-26
 
 ### Breaking
 
@@ -12,7 +12,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Bundle transpiled ES5 code within the package.
-- Enable tree shaking for Webpack & Parcel (Rollup needs some additional work).
+- Partly enable tree shaking.
 
 ## 1.15.0 - 2019-04-12
 
