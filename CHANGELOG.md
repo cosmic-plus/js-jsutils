@@ -141,4 +141,4 @@ All notable changes to this project will be documented in this file.
 ## Older Releases
 
 There is no changelog for older releases. Please take a look at [commit
-history](https://github.com/cosmic-plus/node-ledger-wallet/commits/master).
+history](https://github.com/cosmic-plus/node-jsutils/commits/master).
