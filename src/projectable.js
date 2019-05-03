@@ -67,13 +67,20 @@ method.project = function (keys, dest, transformer) {
  * @param  {String} [destKey=srcKey]
  * @param  {Function} [transformer]
  */
-method.link = function (srcKey, dest, destKey = srcKey, transformer) {
+method.link = function (
+  srcKey,
+  dest,
+  destKey = srcKey,
+  transformer,
+  options = {}
+) {
+  const { init } = options
   const crossReference = this !== dest && dest
   const projector = transformer
     ? () => dest[destKey] = transformer(this[srcKey])
     : () => dest[destKey] = this[srcKey]
 
-  this.trap(srcKey, projector, { crossReference })
+  this.trap(srcKey, projector, { crossReference, init })
 }
 
 /**
@@ -152,8 +159,9 @@ method.compute = function (keys) {
  * @param  {String|...String} keys One or more properties.
  * @param  {Function} [callback] A transformation to apply to those properties.
  */
-method.watch = function (projectable, keys, callback) {
-  projectable.trap(keys, callback, { crossReference: this })
+method.watch = function (projectable, keys, callback, options = {}) {
+  const { init } = options
+  projectable.trap(keys, callback, { init, crossReference: this })
 }
 
 method.trap = function (keys, callback, options = {}) {

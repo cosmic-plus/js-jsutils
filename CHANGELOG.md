@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.0.1 - 2019-05-03
+
+### Fix
+
+- projectable.js: Add back init options into link() & watch().
+
 ## 2.0.0 - 2019-04-26
 
 ### Breaking
