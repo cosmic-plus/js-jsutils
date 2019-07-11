@@ -26,14 +26,17 @@ module.exports = function (value, opts = {}) {
   if (value === undefined || isNaN(value)) return "..."
   else if (value == 0) return 0
 
-  let precision = opts.precision || precisionAuto(Number(value), opts)
-  if (opts.min) precision = Math.max(opts.min, precision)
-  if (opts.max) precision = Math.min(opts.max, precision)
-  return Number(value).toFixed(precision)
+  if (opts.precision == null) {
+    opts.precision = precisionAuto(Number(value), opts)
+  }
+
+  if (opts.min != null) opts.precision = Math.max(opts.min, opts.precision)
+  if (opts.max != null) opts.precision = Math.min(opts.max, opts.precision)
+  return Number(value).toFixed(opts.precision)
 }
 
 function precisionAuto (value, opts) {
-  if (!opts.significant) opts.significant = 4
+  if (opts.significant == null) opts.significant = 4
   let precision = 0
 
   const str = String(value)

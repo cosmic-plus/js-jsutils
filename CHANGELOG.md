@@ -2,9 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.0.2 - 2019-07-11
+
+### Fixed
+
+- nice.js: Properly handle parameters equalling 0. (Thanks m4dpr0ph3ss0r)
+
 ## 2.0.1 - 2019-05-03
 
-### Fix
+### Fixed
 
 - projectable.js: Add back init options into link() & watch().
 
