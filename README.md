@@ -1,7 +1,7 @@
 # @cosmic-plus/jsutils
 
 ![Licence](https://img.shields.io/github/license/cosmic-plus/js-jsutils.svg)
-[![Dependencies](https://david-dm.org/cosmic-plus/js-jsutils/status.svg)](https://david-dm.org/cosmic-plus/js-jsutils)
+[![Dependencies](https://img.shields.io/david/cosmic-plus/js-jsutils)](https://david-dm.org/cosmic-plus/js-jsutils)
 ![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/@cosmic-plus/jsutils.svg)
 ![Size](https://img.shields.io/bundlephobia/minzip/@cosmic-plus/jsutils.svg)
 ![Downloads](https://img.shields.io/npm/dt/@cosmic-plus/jsutils.svg)
