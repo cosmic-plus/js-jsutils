@@ -9,6 +9,7 @@
   "main": "src/index.js",
   "module": "es5/index.mjs",
   "sideEffects": "false",
+  "browserslist": "extends @kisbox/browserslist-config",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prettier": "prettier --write --no-semi 'src/*.js' '*.js' '*.json' '*.md'",
@@ -24,6 +25,7 @@
     "@babel/core": "^7.15.5",
     "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/preset-env": "^7.15.6",
+    "@kisbox/browserslist-config": "^1.0.0-beta.21",
     "eslint": "^5.16.0",
     "prettier": "^1.19.1"
   },
