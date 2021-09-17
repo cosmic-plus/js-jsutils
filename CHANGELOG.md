@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.1.0 - 2021-09-17
+
+### Changed
+
+- Meta: Update dependencies.
+- Meta: Drop support for unsafe browsers.
+
 ## 2.0.2 - 2019-07-11
 
 ### Fixed

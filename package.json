@@ -1,6 +1,6 @@
 {
   "name": "@cosmic-plus/jsutils",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Generic JavaScript utilities that are not related to Stellar",
   "author": "MisterTicot",
   "homepage": "https://cosmic.plus/#view:js-jsutils",
@@ -30,6 +30,7 @@
     "prettier": "^1.19.1"
   },
   "dependencies": {
-    "@babel/runtime": "^7.15.4"
+    "@babel/runtime": "^7.15.4",
+    "core-js": "^3.17.3"
   }
 }
